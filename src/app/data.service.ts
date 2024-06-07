@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  useJsonServer: boolean = false;
-  useStaticArray: boolean = true;
+  useJsonServer: boolean = true;
+  useStaticArray: boolean = false;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
@@ -19,13 +19,13 @@ export class DataService {
   updateCartCount(): void {
     //  ********* STATIC ARRAY ********* //
     if (this.useStaticArray) this.cartCountSubject.next(this.arr.length);
-
-    //  ********* JSON SERVER ********* //
-    if (this.useJsonServer) {
+    else {
       this.getItemsFromCart().subscribe((data) => {
         this.cartCountSubject.next(data.length);
       });
     }
+
+    //  ********* JSON SERVER ********* //
   }
 
   getAllItems(): Observable<any> {
@@ -78,8 +78,6 @@ export class DataService {
     );
   }
 
- 
-
   // Local Array
   arr: any = [];
 
@@ -87,7 +85,8 @@ export class DataService {
   updateArray(arr: any) {
     const isExisting = this.arr.find((item: any) => item.id === arr.id);
     if (isExisting) {
-      this.updateExistingArray(arr.id, arr.quantity + isExisting.quantity);
+      const quantity = arr.quantity + isExisting.quantity>5 ? 5 : arr.quantity + isExisting.quantity
+      this.updateExistingArray(arr.id, quantity);
     } else {
       this.arr.push(arr);
       this.updateCartCount();

@@ -1,13 +1,13 @@
   <div class="row mx-2 my-4" *ngIf="!productNotFound && product">
     <div class="product col-sm-6  offset-sm-3 col-md-8 offset-md-2 rounded">
         <div class="row mx-xs-2" style="height: 100%;">
-            <div class="col-md-7" >
+            <div class="col-md-12 col-xl-7" >
                 <div class="row mx-1" style="padding-top: 20%;">
                     <div class="col-sm-6  offset-sm-3 col-md-8 offset-md-2 "><img data-testid="product-detail-image" src={{product.image}} alt="Product Image" class="img-fluid h-100" 
                         ></div>
                 </div>
             </div>
-            <div class="col-md-5 text-bg-light p-3 ">
+            <div class="col-md-12 col-xl-5 text-bg-light p-3 ">
                 <div class="d-flex flex-column">
                     <h2 data-testid="product-detail-model">{{product.model}}</h2>
                     <div data-testid="product-detail-selected-variant" class="text-secondary my-1 fw-bold">{{variant}}</div>
@@ -33,8 +33,9 @@
                             <button data-testid="product-detail-decrease-quantity" class="p-1 px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="decreaseQuantity()" [disabled]="count<=1" >-</button>
                             <div data-testid="product-detail-quantity" class="p-1 px-3 border-start border-end fw-bold text-secondary">{{count}}</div>
                             <button data-testid="product-detail-increase-quantity" class="p-1  px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="increaseQuantity()" [disabled]="count>=5">+</button>
+                        <small class="text-danger ms-2" [hidden]="isExistingProduct?.quantity+count <= 5">Quantity Cant Exceed 5 </small>
                         </div>
-                    </div>
+                        </div>
 
                     <div class="p-2 px-3 bg-white my-2">
                         <div class="d-flex justify-content-between">

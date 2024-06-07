@@ -1,13 +1,22 @@
 {
   "cart": [
     {
-      "id": "3128GB Storage",
-      "model": "Galaxy S21 5G",
-      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-s215/phantomgrey/front.png",
+      "id": "2128GB Storage",
+      "model": "Galaxy Flip3 5G",
+      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-zfl3/cream/front.png",
       "variant": "128GB Storage",
-      "price": 1248,
-      "quantity": 1,
-      "dateAdded": "2024-06-06T11:30:44.550Z"
+      "price": 1499,
+      "quantity": 4,
+      "dateAdded": "2024-06-07T05:55:35.451Z"
+    },
+    {
+      "id": "1512GB Storage",
+      "model": "Galaxy Z Fold3 5G",
+      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-gzf3/phantomblack/front.png",
+      "variant": "512GB Storage",
+      "price": 2649,
+      "quantity": 5,
+      "dateAdded": "2024-06-07T05:31:03.983Z"
     },
     {
       "id": "1256GB Storage",
@@ -15,26 +24,17 @@
       "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-gzf3/phantomblack/front.png",
       "variant": "256GB Storage",
       "price": 2499,
-      "quantity": 1,
-      "dateAdded": "2024-06-06T11:32:44.479Z"
+      "quantity": 13,
+      "dateAdded": "2024-06-07T05:14:10.059Z"
     },
     {
-      "id": "764GB Storage",
-      "model": "iPhone 12 Mini",
-      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-i12m/black/front.png",
-      "variant": "64GB Storage",
-      "price": 799,
-      "quantity": 3,
-      "dateAdded": "2024-06-06T12:10:04.275Z"
-    },
-    {
-      "id": "4256GB Storage",
-      "model": "Galaxy S21 Ultra 5G",
-      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-s21u/phantomblack/front.png",
-      "variant": "256GB Storage",
-      "price": 1944,
-      "quantity": 3,
-      "dateAdded": "2024-06-06T12:10:14.489Z"
+      "id": "3128GB Storage",
+      "model": "Galaxy S21 5G",
+      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-s215/phantomgrey/front.png",
+      "variant": "128GB Storage",
+      "price": 1248,
+      "quantity": 5,
+      "dateAdded": "2024-06-07T06:16:35.166Z"
     }
   ]
 }

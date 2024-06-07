@@ -134,6 +134,7 @@ export class ProductdetailsComponent {
   localArray: any = [];
 
   productNotFound: boolean = false;
+  isExistingProduct:any;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -145,6 +146,7 @@ export class ProductdetailsComponent {
     this.spinner.show();
     this.activeRoute.paramMap.subscribe((params) => {
       this.productId = params.get('id');
+
       this.productNotFound = !this.productId.match(/^[0-9]*$/);
       if (this.productId && !this.productNotFound) {
         this.service.getItemById(this.productId).subscribe(
@@ -156,6 +158,7 @@ export class ProductdetailsComponent {
                 this.variants = this.product.variants;
                 this.price = this.product.variants[0].price;
                 this.singleProductPrice = this.price;
+                this.checkIfExisting();
 
                 this.spinner.hide();
                 } else {
@@ -198,7 +201,11 @@ export class ProductdetailsComponent {
     this.setPrice();
   }
 
+
+  
+
   //Add to cart
+  totalQuantity:any;
   addToCart(product: any) {
     this.price = this.price / this.count;
     const cartData = {
@@ -218,13 +225,20 @@ export class ProductdetailsComponent {
     }
 
     //  ********* JSON SERVER ********* //
+
     if (this.useJsonserver) {
-      this.service.getItemsFromCart().subscribe((data) => {
-        const isExisting = data.find(
-          (item: any) => item.id === product.id + this.variant
-        );
-        if (isExisting) {
-          cartData.quantity += isExisting.quantity;
+      // this.service.getItemsFromCart().subscribe((data) => {
+      //   const isExisting = data.find(
+      //     (item: any) => item.id === product.id + this.variant
+      //   );
+
+        this.checkIfExisting();
+        if (this.isExistingProduct) {
+
+
+          this.totalQuantity=cartData.quantity += this.isExistingProduct.quantity;
+          // this.totalQuantity >= 5 ? this.totalQuantity=5 : this.totalQuantity;
+
 
           console.log(cartData.quantity);
 
@@ -237,9 +251,22 @@ export class ProductdetailsComponent {
           this.service.updateCartCount();
           this.route.navigate(['/']);
         }
-      });
-    }
+      }
+    // );
+    // }
   }
+
+  
+  checkIfExisting(){
+    
+    this.service.getItemsFromCart().subscribe((data) => {
+      const isExisting = data.find(
+        (item: any) => item.id === this.product.id + this.variant
+      );
+      this.isExistingProduct=isExisting;
+  })
+  
+}
 
   navigateToHome() {
     this.route.navigateByUrl('/');
