@@ -1,0 +1,21 @@
+<div class="row mx-xs-1 mx-3 mx-md-2">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-2" *ngFor="let product of data">
+      <div class="card">
+        <img [attr.data-testid]=" 'product-image-' + product.id" src="{{product.image}}" class=" p-4" alt="...">
+        <div class="card-body">
+       <div class=" d-flex justify-content-between">
+        <div [attr.data-testid]=" 'product-model-' + product.id" class="fw-bold">
+          {{product.model}}
+        </div>
+        <div [attr.data-testid]=" 'product-price-' + product.id" class="text-danger-emphasis fw-bold">
+          {{product.variants[0].price | currency:'USD':'symbol':'1.0-0'}}
+        </div>
+       </div>
+        <div class="d-grid gap-2">
+          <button  [attr.data-testid]=" 'product-view-btn' + product.id" class="btn btn-outline-dark my-1" type="button" [routerLink]='["products",product.id]'>View Handset</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

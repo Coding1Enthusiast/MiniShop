@@ -1,0 +1,127 @@
+  <div class="row mx-2 my-4" *ngIf="!productNotFound && product">
+    <div class="product col-sm-6  offset-sm-3 col-md-8 offset-md-2 rounded">
+        <div class="row mx-xs-2" style="height: 100%;">
+            <div class="col-md-7" >
+                <div class="row mx-1" style="padding-top: 20%;">
+                    <div class="col-sm-6  offset-sm-3 col-md-8 offset-md-2 "><img data-testid="product-detail-image" src={{product.image}} alt="Product Image" class="img-fluid h-100" 
+                        ></div>
+                </div>
+            </div>
+            <div class="col-md-5 text-bg-light p-3 ">
+                <div class="d-flex flex-column">
+                    <h2 data-testid="product-detail-model">{{product.model}}</h2>
+                    <div data-testid="product-detail-selected-variant" class="text-secondary my-1 fw-bold">{{variant}}</div>
+                    <div data-testid="product-detail-selected-variant-price" class="my-1 fw-bold text-default">{{ singleProductPrice | currency:'USD':'symbol':'1.0-0'}}</div>
+                    <div class="border-top border-bottom shadow my-2">
+                       <ul>
+                        <li data-testid="product-detail-description"> {{product.description}}</li>
+                       </ul>
+                    </div>
+
+                    <div class="bg-white text-secondary p-2 my-1 border rounded">
+                        <div>select variants</div>
+                        <select data-testid="product-detail-change-variant" class="form-select form-select-sm border-0 p-0" [(ngModel)]="variant" (change)="setPrice()"> 
+                          <option *ngFor="let p of product.variants;index as i" [value]="p.variant">
+                            {{ p.variant }}
+                        </option>
+                          </select>
+                    </div>
+
+                    <div class="mb-1">
+                        <div class="py-2">Quantity</div>
+                        <div class="d-flex">
+                            <button data-testid="product-detail-decrease-quantity" class="p-1 px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="decreaseQuantity()" [disabled]="count<=1" >-</button>
+                            <div data-testid="product-detail-quantity" class="p-1 px-3 border-start border-end fw-bold text-secondary">{{count}}</div>
+                            <button data-testid="product-detail-increase-quantity" class="p-1  px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="increaseQuantity()" [disabled]="count>=5">+</button>
+                        </div>
+                    </div>
+
+                    <div class="p-2 px-3 bg-white my-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-secondary">{{product.model}} - <b>{{variant}}</b></div>
+                            <div class="fw-bold">*</div>
+                            <div >{{count}}</div>
+                        </div>
+                        <div class="d-flex justify-content-between my-1">
+                            <h5 class="fw-bold text-default">Total : </h5>
+                            <h4 data-testid="product-detail-quantity-total-price" class="text-default ">{{ price | currency:'USD':'symbol':'1.0-0'}}</h4>
+                        </div>
+
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button data-testid="product-detail-add-to-cart-btn" class="btn my-2 text-light" style="background-color: var(--theme-color);" type="button" (click)="addToCart(product)">Add to cart</button>
+                      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="productNotFound" class="bg-white d-flex flex-column align-items-center justify-content-center p-4">
+    <h1 data-testid="product-not-available">Not Available</h1>
+    <button class="btn my-2 text-light" style="background-color: var(--theme-color);" type="button" (click)="navigateToHome()">Shop now</button>
+</div>  
+ 
+<!-- <div class="row mx-1 my-4 ">
+    <div class="product col-sm-6  offset-sm-3 col-md-8 offset-md-2 rounded">
+        <div class="row" style="height: 100%;">
+            <div class="col-md-7" style="height: 100%;">
+                <div class="row">
+                    <div class="col-sm-6  offset-sm-3 col-md-8 offset-md-2 "><img src="{{product.image}}" alt="Product Image" class="img-fluid h-100"></div>
+                </div>
+            </div>
+            <div class="col-md-5 text-bg-light p-3 ">
+                <div class="d-flex flex-column">
+                    <h2>{{product.model}}</h2>
+                    <div class="text-secondary my-1">{{product.variants[0].variant}}</div>
+                    <div class="text-success my-1">{{product.variants[0]?.price | currency:'USD':'symbol':'1.0-0' }}</div>
+                    <div class="border-top border-bottom shadow my-2">
+                       <ul>
+                        <li> {{product.description}}</li>
+                       </ul>
+                    </div>
+
+                    <div class="bg-white text-secondary p-2 my-1 border rounded">
+                        <div>select variants</div>
+                        <select class="form-select form-select-sm border-0 p-0" [(ngModel)]="variant"> 
+                        <option >--select mode--</option>
+                          <option *ngFor="let p of product.variants;index as i" [value]="p.variant">
+                            {{ p.variant }}
+                        </option>
+                          </select>
+                    </div>
+
+                    <div class="mb-1">
+                        <div class="py-2">Quantity</div>
+                        <div class="d-flex">
+                            <button class="p-1 px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="decreaseQuantity()" [disabled]="count<=1" >-</button>
+                            <div class="p-1 px-3 border-start border-end fw-bold text-secondary">{{count}}</div>
+                            <button class="p-1  px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="increaseQuantity()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="p-2 px-3 bg-white my-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-secondary">{{product.model}} - {{variant}}</div>
+                            <div>*</div>
+                            <div>{{count}}</div>
+                        </div>
+                        <div class="d-flex justify-content-between my-1">
+                            <div class="text-success fw-bold">Total : </div>
+                            <h4 class="text-success">{{product.variants[0].price | currency:'USD':'symbol':'1.0-0'}}</h4>
+                        </div>
+
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn my-2 text-light" style="background-color: var(--theme-color);" type="button" (click)="addToCart(product)">Add to cart</button>
+                      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  -->

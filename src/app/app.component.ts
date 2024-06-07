@@ -1,13 +1,23 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { DataService } from './data.service';
+import { CommonModule } from '@angular/common';
+import { log } from 'console';
+import { CartComponent } from './Components/cart/cart.component';
+import { NgxSpinnerComponent } from 'ngx-spinner';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,CommonModule,RouterLink,CartComponent,NgxSpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'shoppingcart';
+  title = 'Mini Shop';
+  count=0;
+  constructor(private service:DataService){
+    this.service.cartCount$.subscribe(count => {
+      this.count = count;
+    });
+  }
 }

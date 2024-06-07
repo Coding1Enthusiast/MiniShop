@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root{
+    --theme-color:#40B5AD;
+}
+
+.text-default{
+    color: var(--theme-color) !important;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.bg-default{
+    
+    background-color: var(--theme-color) !important;
+}
+button:disabled{
+    cursor: not-allowed;
+}
+
+body{
+    background-color: #DEEFF5;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
