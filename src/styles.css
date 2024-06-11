@@ -1,7 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
 
 :root {
   --theme-color: #40b5ad;
+  --background-color : #deeff5;
+  --box-shadow-color-1:#00000033;
+  --box-shadow-color-2:#ccc;
+  
 }
 
 .text-default {
@@ -19,6 +22,6 @@ button:disabled {
 }
 
 body {
-  background-color: #deeff5;
+  background-color: var(--background-color);
   font-family: Georgia, "Times New Roman", Times, serif;
 }

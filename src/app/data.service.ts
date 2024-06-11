@@ -1,23 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
-
+import { baseURL  } from '../environment';
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  useJsonServer: boolean = true;
-  useStaticArray: boolean = false;
+
+  useStaticArray: boolean = true;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
 
   constructor(private http: HttpClient) {
+
+    console.log(baseURL)
     this.updateCartCount();
   }
 
   updateCartCount(): void {
-    //  ********* STATIC ARRAY ********* //
     if (this.useStaticArray) this.cartCountSubject.next(this.arr.length);
     else {
       this.getItemsFromCart().subscribe((data) => {
@@ -25,7 +26,6 @@ export class DataService {
       });
     }
 
-    //  ********* JSON SERVER ********* //
   }
 
   getAllItems(): Observable<any> {
@@ -47,12 +47,14 @@ export class DataService {
   }
 
   addTocart(productDetails: any): Observable<any> {
-    return this.http.post(`http://localhost:3000/cart`, productDetails);
+
+    console.log(baseURL)
+    return this.http.post(`${{baseURL}}`, productDetails);
   }
 
   getItemsFromCart(): Observable<any> {
     return this.http
-      .get<any>(`http://localhost:3000/cart`)
+      .get<any>(`${{baseURL}}`)
       .pipe(
         map((products: any[]) =>
           products.sort(
@@ -64,21 +66,21 @@ export class DataService {
   }
 
   getItemFromCart(id: any) {
-    return this.http.get(`http://localhost:3000/cart/${id}`);
+    return this.http.get(`${{baseURL}}/${id}`);
   }
 
   deleteItemFromCart(id: any) {
-    return this.http.delete<any>(`http://localhost:3000/cart/${id}`);
+    return this.http.delete<any>(`${{baseURL}}/${id}`);
   }
 
   updateCart(productDetails: any) {
     return this.http.put(
-      `http://localhost:3000/cart/${productDetails.id}`,
+      `${{baseURL}}/${productDetails.id}`,
       productDetails
     );
   }
 
-  // Local Array
+
   arr: any = [];
 
   isExisting = false;

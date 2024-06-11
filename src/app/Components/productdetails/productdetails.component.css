@@ -3,14 +3,26 @@
 }
 
 .product{
-    box-shadow: 0 4px 8px 0 #00000033, 0 6px 20px 0 #00000030;
+    box-shadow: 0 4px 8px 0 var(--box-shadow-color-1), 0 6px 20px 0  var(--box-shadow-color-1);
 }
+
 .shadow{
     box-shadow: 
-    inset 0px 11px 8px -10px #cccccc,
-    inset 0px -11px 8px -10px #CCC; 
-
+    inset 0px 11px 8px -10px  var(--box-shadow-color-2)
+    inset 0px -11px 8px -10px  var(--box-shadow-color-2);
 }
+
 option{
     padding: 32px !important;
+}
+
+.ht-100{
+    height: 100%;
+}
+
+.pt-20p{
+    padding-top: 20%;
+}
+.add-to-cart-btn,.shop-now-btn{
+    background-color: var(--theme-color);
 }

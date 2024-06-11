@@ -12,40 +12,30 @@ import { RouterLink } from '@angular/router';
 })
 export class CartComponent {
 
-
-  useJsonserver: boolean = this.service.useJsonServer;
   useStaticArray: boolean = this.service.useStaticArray;
-
-
-  totalAmount = 0;
+  totalAmount:number = 0;
   products: any = [];
+  isBuy:boolean = false;
 
   constructor(private service: DataService) {
-
-    //  ********* STATIC ARRAY ********* //
-    if(this.useStaticArray){
-      this.products=this.service.arr;
+    
+    if (this.useStaticArray) {
+      this.products = this.service.arr;
       this.totalAmount = this.getTotalAmount();
+    } else {
+      this.service.getItemsFromCart().subscribe((data) => {
+        this.products = data;
+        this.totalAmount = this.getTotalAmount();
+      });
     }
-  
-    //  ********* JSON SERVER ********* // 
-    if(this.useJsonserver){
-          this.service.getItemsFromCart().subscribe((data) => {
-      this.products = data;
-      this.totalAmount = this.getTotalAmount();
-    });
-    }
-
-
   }
 
   increaseQuantity(product: any) {
     if (product.quantity === 5) return;
     product.quantity += 1;
     this.totalAmount += product.price;
-    
-    //  ********* JSON SERVER ********* // 
-    if(this.useJsonserver){
+
+    if (!this.useStaticArray) {
       this.service.updateCart(product).subscribe();
     }
   }
@@ -54,58 +44,52 @@ export class CartComponent {
     if (product.quantity === 1) return;
     product.quantity -= 1;
     this.totalAmount -= product.price;
-    
-    //  ********* JSON SERVER ********* // 
-    if(this.useJsonserver){
+
+    if (!this.useStaticArray) {
       this.service.updateCart(product).subscribe();
     }
   }
 
-  isBuy = false;
+
   buyItem() {
     this.isBuy = true;
     this.clearCart();
   }
 
   clearCart() {
-
-    //  ********* JSON SERVER ********* // 
-    if(this.useJsonserver){
+    if (!this.useStaticArray) {
       this.products.forEach((product: any) => {
-        this.service.deleteItemFromCart(product.id).subscribe(()=>{
+        this.service.deleteItemFromCart(product.id).subscribe(() => {
           this.service.updateCartCount();
         });
       });
+    } else {
+      this.products = [];
+      this.service.arr = [];
+      this.service.updateCartCount();
     }
-
-    this.products = [];
   }
 
   deleteItem(id: any) {
-    
-    //  ********* JSON SERVER ********* // 
-    if(this.useJsonserver){
+    if (this.useStaticArray) {
+      const prod = this.products.filter((item: any) => item.id !== id);
+      this.products = prod;
+      this.service.arr = this.products;
+      this.service.updateCartCount();
+    } else {
       this.service.deleteItemFromCart(id).subscribe(() => {
-        this.products= this.products.filter((item: any) => item.id !== id);
+        this.products = this.products.filter((item: any) => item.id !== id);
         this.service.updateCartCount();
         this.getTotalAmount();
       });
     }
-
-    //  ********* STATIC ARRAY ********* // 
-    if(this.useStaticArray){
-      const prod= this.products.filter((item: any) => item.id !== id);
-        this.products=prod;
-        this.service.arr=this.products;
-        this.service.updateCartCount();
-    }
   }
 
   getTotalAmount() {
-    this.totalAmount=0;
-      this.products.forEach((product: any) => {
-        this.totalAmount += product.quantity * product.price;
-      });
+    this.totalAmount = 0;
+    this.products.forEach((product: any) => {
+      this.totalAmount += product.quantity * product.price;
+    });
     return this.totalAmount;
   }
 }

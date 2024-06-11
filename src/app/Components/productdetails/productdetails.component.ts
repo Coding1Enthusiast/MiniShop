@@ -120,7 +120,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './productdetails.component.css',
 })
 export class ProductdetailsComponent {
-  useJsonserver: boolean = this.service.useJsonServer;
+  // useJsonserver: boolean = this.service.useJsonServer;
   useStaticArray: boolean = this.service.useStaticArray;
 
   variants = [];
@@ -128,21 +128,19 @@ export class ProductdetailsComponent {
   product: any;
   variant: any;
   price: any;
-
   singleProductPrice: any;
-
   localArray: any = [];
-
   productNotFound: boolean = false;
-  isExistingProduct:any;
+  isExistingProduct: any;
+  count = 1;
+  totalQuantity: any;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private service: DataService,
     private route: Router,
-    private spinner:NgxSpinnerService
+    private spinner: NgxSpinnerService
   ) {
-
     this.spinner.show();
     this.activeRoute.paramMap.subscribe((params) => {
       this.productId = params.get('id');
@@ -161,23 +159,22 @@ export class ProductdetailsComponent {
                 this.checkIfExisting();
 
                 this.spinner.hide();
-                } else {
-                  this.productNotFound = true;
-                  this.spinner.hide();
-                  }
-                  }
-                  },
-                  (error) => {
-                    this.productNotFound = true;
-                    console.log('Error : ', error);
-                    this.spinner.hide();
+              } else {
+                this.productNotFound = true;
+                this.spinner.hide();
+              }
+            }
+          },
+          (error) => {
+            this.productNotFound = true;
+            console.log('Error : ', error);
+            this.spinner.hide();
           }
         );
       }
     });
   }
 
-  //selected variant
   setPrice() {
     this.product.variants.map((item: any) => {
       if (item.variant === this.variant) {
@@ -188,24 +185,18 @@ export class ProductdetailsComponent {
     });
   }
 
-  // Quantity of Product
-  count = 1;
   increaseQuantity() {
     if (this.count === 5) return;
     this.count += 1;
     this.setPrice();
   }
+  
   decreaseQuantity() {
     if (this.count === 1) return;
     this.count -= 1;
     this.setPrice();
   }
 
-
-  
-
-  //Add to cart
-  totalQuantity:any;
   addToCart(product: any) {
     this.price = this.price / this.count;
     const cartData = {
@@ -218,55 +209,36 @@ export class ProductdetailsComponent {
       dateAdded: new Date(),
     };
 
-    //  ********* STATIC ARRAY ********* //
     if (this.useStaticArray) {
       this.service.updateArray(cartData);
       this.navigateToHome();
-    }
+    } else {
+      this.checkIfExisting();
+      if (this.isExistingProduct) {
+        this.totalQuantity = cartData.quantity +=
+          this.isExistingProduct.quantity;
+        console.log(cartData.quantity);
 
-    //  ********* JSON SERVER ********* //
-
-    if (this.useJsonserver) {
-      // this.service.getItemsFromCart().subscribe((data) => {
-      //   const isExisting = data.find(
-      //     (item: any) => item.id === product.id + this.variant
-      //   );
-
-        this.checkIfExisting();
-        if (this.isExistingProduct) {
-
-
-          this.totalQuantity=cartData.quantity += this.isExistingProduct.quantity;
-          // this.totalQuantity >= 5 ? this.totalQuantity=5 : this.totalQuantity;
-
-
-          console.log(cartData.quantity);
-
-          this.service.updateCart(cartData).subscribe();
-          console.log('product already added');
-          this.route.navigate(['/']);
-          return;
-        } else {
-          this.service.addTocart(cartData).subscribe(() => {});
-          this.service.updateCartCount();
-          this.route.navigate(['/']);
-        }
+        this.service.updateCart(cartData).subscribe();
+        console.log('product already added');
+        this.route.navigate(['/']);
+        return;
+      } else {
+        this.service.addTocart(cartData).subscribe(() => {});
+        this.service.updateCartCount();
+        this.route.navigate(['/']);
       }
-    // );
-    // }
+    }
   }
 
-  
-  checkIfExisting(){
-    
+  checkIfExisting() {
     this.service.getItemsFromCart().subscribe((data) => {
       const isExisting = data.find(
         (item: any) => item.id === this.product.id + this.variant
       );
-      this.isExistingProduct=isExisting;
-  })
-  
-}
+      this.isExistingProduct = isExisting;
+    });
+  }
 
   navigateToHome() {
     this.route.navigateByUrl('/');
