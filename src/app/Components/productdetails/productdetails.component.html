@@ -33,7 +33,6 @@
                             <button data-testid="product-detail-decrease-quantity" class="p-1 px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="decreaseQuantity()" [disabled]="count<=1" >-</button>
                             <div data-testid="product-detail-quantity" class="p-1 px-3 border-start border-end fw-bold text-secondary">{{count}}</div>
                             <button data-testid="product-detail-increase-quantity" class="p-1  px-3 border border-0 cursor-pointer bg-white fw-bold text-secondary" (click)="increaseQuantity()" [disabled]="count>=5">+</button>
-                        <small class="text-danger ms-2" [hidden]="isExistingProduct?.quantity+count <= 5">Quantity Cant Exceed 5 </small>
                         </div>
                         </div>
 

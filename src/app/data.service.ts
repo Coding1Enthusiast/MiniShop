@@ -1,24 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
-import { baseURL  } from '../environment';
+import { baseURL } from '../environment';
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
 
-  useStaticArray: boolean = true;
+  useStaticArray: boolean = false;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
 
   constructor(private http: HttpClient) {
-
-    console.log(baseURL)
     this.updateCartCount();
   }
 
   updateCartCount(): void {
+
     if (this.useStaticArray) this.cartCountSubject.next(this.arr.length);
     else {
       this.getItemsFromCart().subscribe((data) => {
@@ -47,14 +46,12 @@ export class DataService {
   }
 
   addTocart(productDetails: any): Observable<any> {
-
-    console.log(baseURL)
-    return this.http.post(`${{baseURL}}`, productDetails);
+    return this.http.post(`${baseURL}`, productDetails);
   }
 
   getItemsFromCart(): Observable<any> {
     return this.http
-      .get<any>(`${{baseURL}}`)
+      .get<any>(`${baseURL}`)
       .pipe(
         map((products: any[]) =>
           products.sort(
@@ -66,16 +63,16 @@ export class DataService {
   }
 
   getItemFromCart(id: any) {
-    return this.http.get(`${{baseURL}}/${id}`);
+    return this.http.get(`${baseURL}/${id}`);
   }
 
   deleteItemFromCart(id: any) {
-    return this.http.delete<any>(`${{baseURL}}/${id}`);
+    return this.http.delete<any>(`${baseURL}/${id}`);
   }
 
   updateCart(productDetails: any) {
     return this.http.put(
-      `${{baseURL}}/${productDetails.id}`,
+      `${baseURL}/${productDetails.id}`,
       productDetails
     );
   }

@@ -6,7 +6,7 @@
       "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-zfl3/cream/front.png",
       "variant": "128GB Storage",
       "price": 1499,
-      "quantity": 4,
+      "quantity": 1,
       "dateAdded": "2024-06-07T05:55:35.451Z"
     },
     {
@@ -15,7 +15,7 @@
       "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-gzf3/phantomblack/front.png",
       "variant": "512GB Storage",
       "price": 2649,
-      "quantity": 5,
+      "quantity": 4,
       "dateAdded": "2024-06-07T05:31:03.983Z"
     },
     {
@@ -24,7 +24,7 @@
       "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-gzf3/phantomblack/front.png",
       "variant": "256GB Storage",
       "price": 2499,
-      "quantity": 13,
+      "quantity": 2,
       "dateAdded": "2024-06-07T05:14:10.059Z"
     },
     {
@@ -35,6 +35,15 @@
       "price": 1248,
       "quantity": 5,
       "dateAdded": "2024-06-07T06:16:35.166Z"
+    },
+    {
+      "id": "564GB Storage",
+      "model": "iPhone 12",
+      "image": "https://www.telstra.com.au/content/dam/tcom/devices/mobile/mhdwhst-ip12/(product)red/front.png",
+      "variant": "64GB Storage",
+      "price": 1399,
+      "quantity": 1,
+      "dateAdded": "2024-06-11T05:41:19.096Z"
     }
   ]
 }
