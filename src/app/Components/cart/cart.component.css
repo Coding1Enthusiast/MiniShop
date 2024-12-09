@@ -1,4 +1,9 @@
 .main{
-    height: -webkit-fill-available;
-    background-color: #ecf3f9;
+    min-height: calc(100vh - 56px);
+    height: fit-content;
+    background-color: var(--background-color)
+}
+
+.btn{
+    background-color: var(--theme-color)
 }

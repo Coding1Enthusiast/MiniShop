@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
-
+import { baseURL } from '../environment';
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  useJsonServer: boolean = false;
-  useStaticArray: boolean = true;
+
+  useStaticArray: boolean = false;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
@@ -17,15 +17,14 @@ export class DataService {
   }
 
   updateCartCount(): void {
-    //  ********* STATIC ARRAY ********* //
-    if (this.useStaticArray) this.cartCountSubject.next(this.arr.length);
 
-    //  ********* JSON SERVER ********* //
-    if (this.useJsonServer) {
+    if (this.useStaticArray) this.cartCountSubject.next(this.arr.length);
+    else {
       this.getItemsFromCart().subscribe((data) => {
         this.cartCountSubject.next(data.length);
       });
     }
+
   }
 
   getAllItems(): Observable<any> {
@@ -47,12 +46,12 @@ export class DataService {
   }
 
   addTocart(productDetails: any): Observable<any> {
-    return this.http.post(`http://localhost:3000/cart`, productDetails);
+    return this.http.post(`${baseURL}`, productDetails);
   }
 
   getItemsFromCart(): Observable<any> {
     return this.http
-      .get<any>(`http://localhost:3000/cart`)
+      .get<any>(`${baseURL}`)
       .pipe(
         map((products: any[]) =>
           products.sort(
@@ -64,30 +63,29 @@ export class DataService {
   }
 
   getItemFromCart(id: any) {
-    return this.http.get(`http://localhost:3000/cart/${id}`);
+    return this.http.get(`${baseURL}/${id}`);
   }
 
   deleteItemFromCart(id: any) {
-    return this.http.delete<any>(`http://localhost:3000/cart/${id}`);
+    return this.http.delete<any>(`${baseURL}/${id}`);
   }
 
   updateCart(productDetails: any) {
     return this.http.put(
-      `http://localhost:3000/cart/${productDetails.id}`,
+      `${baseURL}/${productDetails.id}`,
       productDetails
     );
   }
 
- 
 
-  // Local Array
   arr: any = [];
 
   isExisting = false;
   updateArray(arr: any) {
     const isExisting = this.arr.find((item: any) => item.id === arr.id);
     if (isExisting) {
-      this.updateExistingArray(arr.id, arr.quantity + isExisting.quantity);
+      const quantity = arr.quantity + isExisting.quantity>5 ? 5 : arr.quantity + isExisting.quantity
+      this.updateExistingArray(arr.id, quantity);
     } else {
       this.arr.push(arr);
       this.updateCartCount();
